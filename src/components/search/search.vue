@@ -1,8 +1,7 @@
 <template>
   <div class="search-rect">
     <div class="distress">
-      <span>{{city}}</span>
-      <router-link :to="{path:'/distress'}"></router-link>
+      <router-link :to="{path:'/distress'}"><span>{{city}}</span></router-link>
       <p></p>
     </div>
     <div class="search-input">
@@ -129,33 +128,33 @@
 <style lang="less" scoped>
   .search-rect {
     display: flex;
-    flex: 1;
     justify-content: space-between;
     border-bottom: 1px solid #d8d8d8;
     padding: 9.7px 18px;
-    width: 339px;
-    height: 42px;
+    /*width: 339px;*/
+    /*height: 42px;*/
     background: #f6f6f6;
     .distress {
       display: flex;
       align-items: center;
       height: 42px;
-      padding-right: 10px;
       line-height: 42px;
-      span {
-        display: block;
-        font-size: 14px;
-        height: 30px;
-        width: 150%;
-        line-height: 30px;
-      }
       a {
-        position: absolute;
-        height: 42px;
-        width: 60px;
+        width: 100%;
+        height: 100%;
+        span {
+          display: block;
+          font-size: 20px;
+          color: black;
+          text-align: center;
+          height: 30px;
+          font-weight: normal;
+          line-height: 30px;
+          transform: translateY(5px);
+        }
       }
       p {
-        /*margin: 4px 0 0 6px;*/
+        margin: 0 10px ;
         width: 15px;
         height: 15px;
         background: url("http://static1.mtime.cn/html5/20170921140022/images/2014/i_city.png") no-repeat;
@@ -166,16 +165,17 @@
     }
     .search-input {
       display: flex;
+      flex:1;
       position: relative;
       align-items: center;
       padding: 0 29px 0 33.8px;
-      width: 202px;
       height: 37px;
       background: #fff url("http://static1.mtime.cn/html5/20170921140022/images/2014/search_ico_01.png") .5em center no-repeat;
       background-size: 21px;
       border: 1px solid #d8d8d8;
       border-radius: 10px;
       input {
+        width: 100%;
         font-size: 18px;
         border: none;
         outline: none;
@@ -183,9 +183,9 @@
       .search-list {
         position: absolute;
         padding: 0 20px 0 22px;
-        width: 202px;
+        width:80%;
         max-height: 400px;
-        left: 10px;
+        left: 2px;
         z-index: 51;
         top: 39px;
         background: #f9f9f9;
@@ -197,7 +197,7 @@
             height: 60px;
             margin: 8px 0;
             border-bottom: 1px solid #D9D9D9;
-            &:last-child{
+            &:last-child {
               border: none;
             }
             div {
@@ -233,7 +233,7 @@
                 display: inline-block;
                 position: absolute;
                 left: 0;
-                width: 240px;
+                width:100%;
                 height: 60px;
                 transform: translateY(-50px);
               }

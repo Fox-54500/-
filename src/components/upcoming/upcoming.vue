@@ -136,7 +136,10 @@
       }
       .header-all {
         display: flex;
+        position: relative;
+        left: 50%;
         margin: 8px;
+        margin-left: -180px;
         font-size: 15px;
         border-radius: 20px;
         color: white;

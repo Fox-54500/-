@@ -81,8 +81,7 @@
         display: flex;
         flex-wrap: wrap;
         li {
-          margin-top: 6px;
-          margin-left: 3px;
+          margin: 5px auto;
           div {
             width: 88px;
             height: 88px;
@@ -95,8 +94,8 @@
             position: fixed;
             left: 0px;
             top: 0px;
-            width: 375px;
-            height: 667px;
+            width: 100%;
+            height: 100%;
             background: rgba(7, 17, 27, 0.9);
             img {
               display: block;

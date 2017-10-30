@@ -12,7 +12,7 @@
     <search :city="$route.query.cityN||'北京'"></search>
     <div class="ongoing-box">
       <ul>
-        <div class="loading"></div>
+        <div class="loading">下拉刷新</div>
         <li class="ongoing-list" v-for="(item,index) in hotPlay.ms" v-if="index< idx">
           <router-link :to="{path:'/details',query: {movieID: item.id, locationID:hotPlay.lid}}">
             <div class="ongoing-rect">
@@ -38,7 +38,7 @@
             </div>
           </router-link>
         </li>
-        <div class="loadMore"></div>
+        <div class="loadMore">上拉加载</div>
       </ul>
     </div>
   </div>
@@ -73,25 +73,37 @@
       })
     },
     updated() {
+      let loading = document.getElementsByClassName('loading')[0]
+      let loadMore = document.getElementsByClassName('loadMore')[0]
       this.boxWrapper.on('scroll', () => {
-        if (this.boxWrapper.y >= 100) {
+        loading.style.position = 'static'
+        loadMore.style.position = 'static'
+        if (this.boxWrapper.y >= 50) {
           this.refresh = true
+          loading.innerHTML = '正在刷新'
         }
         if (this.boxWrapper.y - this.relativeY < -420) {
           this.loadMore = true
+          loadMore.innerHTML = '正在加载'
+          this.boxWrapper.refresh()
         }
       })
       this.boxWrapper.on('scrollEnd', () => {
+        loading.style.position = 'absolute'
+        loadMore.style.position = 'absolute'
         if (this.refresh) {
           this.refresh = false
           this.initData()
           this.idx = 5
           this.relativeY = 0
+          loading.innerHTML = '下拉刷新'
         }
         if (this.loadMore) {
+          this.initData()
           this.idx += 5
           this.relativeY -= 750
           this.loadMore = false
+          loadMore.innerHTML = '上拉加载'
         }
       })
       this.boxWrapper.refresh()
@@ -143,7 +155,10 @@
       }
       .header-all {
         display: flex;
+        position: relative;
+        left: 50%;
         margin: 8px;
+        margin-left: -180px;
         font-size: 15px;
         border-radius: 20px;
         color: white;
@@ -178,19 +193,19 @@
         position: relative;
         .loading {
           position: absolute;
-          top: -80px;
+          top: -20px;
           width: 100%;
-          height: 80px;
-          background: url("../../assets/123.gif") no-repeat center;
-          background-size: contain;
+          font-size: 16px;
+          text-align: center;
+          height: 20px;
         }
         .loadMore {
           position: absolute;
-          bottom: -80px;
+          bottom: -20px;
           width: 100%;
-          height: 80px;
-          background: url("../../assets/123.gif") no-repeat center;
-          background-size: contain;
+          text-align: center;
+          font-size: 16px;
+          height: 20px;
         }
         li.ongoing-list {
           width: 100%;

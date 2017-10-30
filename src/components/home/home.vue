@@ -8,20 +8,22 @@
         <span>正在热映 ( {{length}}部 )</span>
         <span></span>
       </router-link>
-      <ul>
-        <li v-for="(item, index) in hotPlay.ms" v-if="index<=7">
-          <div class="hotMovie-image">
-            <div v-if="item.r!=-1" class="rating">{{item.r}}<span v-if="isInt(item.r)">.0</span></div>
-            <img :src="item.img">
-            <router-link class="title"
-                         :to="{path:'/details',query: {movieID: item.id, locationID:hotPlay.lid, detail:item}}">
-            </router-link>
-          </div>
-          <div>
-            {{item.tCn}}
-          </div>
-        </li>
-      </ul>
+      <div class="hotPlay-wrapper">
+        <ul :style="{width:length*84+'px'}">
+          <li v-for="(item, index) in hotPlay.ms">
+            <div class="hotMovie-image">
+              <div v-if="item.r!=-1" class="rating">{{item.r}}<span v-if="isInt(item.r)">.0</span></div>
+              <img :src="item.img">
+              <router-link class="title"
+                           :to="{path:'/details',query: {movieID: item.id, locationID:hotPlay.lid, detail:item}}">
+              </router-link>
+            </div>
+            <div>
+              {{item.tCn}}
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="upcoming">
       <router-link class="title"
@@ -29,6 +31,21 @@
         <span>即将上映 ( {{upcoming.length}}部 )</span>
         <span></span>
       </router-link>
+      <div class="upcoming-wrapper">
+        <ul :style="{width:upcoming.length*84+'px'}">
+          <li v-for="(item, index) in upcoming">
+            <div class="hotMovie-image">
+              <img :src="item.image">
+              <router-link class="title"
+                           :to="{path:'/details',query: {movieID: item.id, locationID:$route.query.locationID||290, detail:item}}">
+              </router-link>
+            </div>
+            <div>
+              {{item.title}}
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="cin-line">
       <p></p>
@@ -39,6 +56,7 @@
 <script>
   import search from '../search/search.vue'
   import topper from '../header/header.vue'
+  import IScroll from 'iscroll/build/iscroll-probe'
 
   export default {
     name: '',
@@ -71,6 +89,24 @@
         })
       }
     },
+    mounted() {
+      this.$nextTick(() => {
+        let upcoming = document.getElementsByClassName('upcoming-wrapper')[0]
+        let hotplay = document.getElementsByClassName('hotPlay-wrapper')[0]
+        this.upcomingWrapper = new IScroll(upcoming, {
+          click: true,
+          scrollX: true
+        })
+        this.hotplayWrapper = new IScroll(hotplay, {
+          click: true,
+          scrollX: true
+        })
+      })
+    },
+    updated() {
+      this.upcomingWrapper.refresh()
+      this.hotplayWrapper.refresh()
+    },
     methods: {
       isInt(val) {
         return val % 1 === 0
@@ -90,16 +126,14 @@
 <style lang="less" scoped>
   .home-page {
     .hotMovie {
-      width: 339px;
       margin: 0 auto;
       padding: 6px 18px 18px 18px;
       .title {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 339px;
-        margin: 0 auto;
-
+        margin-bottom: 20px;
+        width: 100%;
         height: 42px;
         color: #333;
         font-size: 21px;
@@ -113,60 +147,65 @@
           transform: rotate(-90deg);
         }
       }
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        li {
+      .hotPlay-wrapper {
+        overflow: hidden;
+        ul {
           display: flex;
-          flex-direction: column;
-          div {
-            width: 84px;
-            text-align: center;
-            margin-bottom: 10px;
-            &.hotMovie-image {
-              position: relative;
-              img {
-                width: 78px;
-                height: 116px;
+          li {
+            display: flex;
+            flex-direction: column;
+            div {
+              width: 84px;
+              text-align: center;
+              margin-bottom: 10px;
+              &.hotMovie-image {
+                position: relative;
+                img {
+                  width: 78px;
+                  height: 116px;
+                }
+                .rating {
+                  position: absolute;
+                  top: 3px;
+                  right: 5px;
+                  width: 23px;
+                  height: 22px;
+                  line-height: 22px;
+                  font-size: 13px;
+                  background: #659d0e;
+                  color: #FFFFFF;
+                }
+                a {
+                  display: block;
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  top: 0;
+                  left: 0;
+                }
               }
-              .rating {
-                position: absolute;
-                top: 3px;
-                right: 5px;
-                width: 23px;
-                height: 22px;
-                line-height: 22px;
-                font-size: 13px;
-                background: #659d0e;
-                color: #FFFFFF;
-              }
-              a {
-                display: block;
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-              }
-            }
 
-            &:last-child {
-              overflow: hidden;
-              height: 32px;
-              font-weight: 200;
+              &:last-child {
+                overflow: hidden;
+                height: 32px;
+                font-weight: 200;
+              }
             }
           }
         }
       }
+
     }
     .upcoming {
+      margin: 0 auto;
+      padding: 6px 18px 18px 18px;
       .title {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 339px;
         border-top: 1px solid #d8d8d8;
-        margin: 0 auto;
+        margin-bottom: 20px;
+        width: 100%;
         height: 42px;
         color: #333;
         font-size: 21px;
@@ -180,6 +219,53 @@
           transform: rotate(-90deg);
         }
 
+      }
+      .upcoming-wrapper {
+        overflow: hidden;
+        ul {
+          display: flex;
+          li {
+            display: flex;
+            flex-direction: column;
+            div {
+              width: 84px;
+              text-align: center;
+              margin-bottom: 10px;
+              &.hotMovie-image {
+                position: relative;
+                img {
+                  width: 78px;
+                  height: 116px;
+                }
+                .rating {
+                  position: absolute;
+                  top: 3px;
+                  right: 5px;
+                  width: 23px;
+                  height: 22px;
+                  line-height: 22px;
+                  font-size: 13px;
+                  background: #659d0e;
+                  color: #FFFFFF;
+                }
+                a {
+                  display: block;
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  top: 0;
+                  left: 0;
+                }
+              }
+
+              &:last-child {
+                overflow: hidden;
+                height: 32px;
+                font-weight: 200;
+              }
+            }
+          }
+        }
       }
     }
   }

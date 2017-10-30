@@ -43,6 +43,9 @@
     height: 53px;
     background-color: #1c2635;
     ul {
+      display: flex;
+      width: 100%;
+      justify-content: space-around;
       li {
         width: 58.6px;
         display: flex;
