@@ -1,5 +1,6 @@
 <template>
   <div class="ongoing">
+    <Loading v-if="!hotPlay.ms"></Loading>
     <div class="header">
       <div class="header-to" @click="prev"></div>
       <div class="header-all">
@@ -38,6 +39,7 @@
             </div>
           </router-link>
         </li>
+        <div class="loadMore-r"></div>
         <div class="loadMore">上拉加载</div>
       </ul>
     </div>
@@ -47,6 +49,7 @@
 <script>
   import search from '../search/search.vue'
   import IScroll from 'iscroll/build/iscroll-probe'
+  import Loading from '../loading/Loading.vue'
 
   export default {
     name: '',
@@ -67,7 +70,7 @@
         let wrapper = document.getElementsByClassName('ongoing-box')[0]
         this.boxWrapper = new IScroll(wrapper, {
           click: true,
-          topOffset: 50,
+          topOffset: 31,
           probeType: 3
         })
       })
@@ -76,34 +79,30 @@
       let loading = document.getElementsByClassName('loading')[0]
       let loadMore = document.getElementsByClassName('loadMore')[0]
       this.boxWrapper.on('scroll', () => {
-        loading.style.position = 'static'
-        loadMore.style.position = 'static'
         if (this.boxWrapper.y >= 50) {
           this.refresh = true
-          loading.innerHTML = '正在刷新'
+          loading.innerText = '正在刷新'
         }
-        if (this.boxWrapper.y - this.relativeY < -420) {
+        if (this.boxWrapper.y - this.relativeY < -370) {
           this.loadMore = true
-          loadMore.innerHTML = '正在加载'
+          loadMore.innerText = '正在加载'
           this.boxWrapper.refresh()
         }
       })
       this.boxWrapper.on('scrollEnd', () => {
-        loading.style.position = 'absolute'
-        loadMore.style.position = 'absolute'
         if (this.refresh) {
           this.refresh = false
           this.initData()
           this.idx = 5
           this.relativeY = 0
-          loading.innerHTML = '下拉刷新'
+          loading.innerText = '下拉刷新'
         }
         if (this.loadMore) {
           this.initData()
           this.idx += 5
-          this.relativeY -= 750
+          this.relativeY -= 765
           this.loadMore = false
-          loadMore.innerHTML = '上拉加载'
+          loadMore.innerText = '上拉加载'
         }
       })
       this.boxWrapper.refresh()
@@ -132,10 +131,13 @@
       }
     },
     components: {
-      search
+      search,
+      Loading
     },
     created() {
-      this.initData()
+      setTimeout(() => {
+        this.initData()
+      }, 1000)
       this.cityN = this.$route.query.cityN
     }
   }
@@ -186,7 +188,7 @@
     }
     div.ongoing-box {
       width: 90%;
-      height: 500px;
+      height: 517px;
       padding: 0 18px;
       overflow: hidden;
       ul {
@@ -199,9 +201,13 @@
           text-align: center;
           height: 20px;
         }
+        .loadMore-r{
+          width: 100%;
+          height: 20px;
+        }
         .loadMore {
           position: absolute;
-          bottom: -20px;
+          bottom: 0px;
           width: 100%;
           text-align: center;
           font-size: 16px;
@@ -237,6 +243,8 @@
               .ongoing-image {
                 position: relative;
                 overflow: hidden;
+                width: 78px;
+                height: 117.5px;
                 img {
                   width: 78px;
                   height: 117.5px;

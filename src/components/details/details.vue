@@ -1,5 +1,6 @@
 <template>
   <div class="details">
+    <Loading v-if="!movieDetail.img"></Loading>
     <div class="curtain">
       <img :src="movieDetail.img">
     </div>
@@ -170,6 +171,7 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
+  import Loading from '../loading/Loading.vue'
 
   export default {
     name: '',
@@ -233,30 +235,32 @@
     },
     beforeCreate() {
       window.scrollTo(0, 0)
-      this.$http.get('/list?locationId=' + this.$route.query.locationID +
-        '&movieId=' + this.$route.query.movieID + '')
-        .then((res) => {
-          this.movieDetail = res.body.data.basic
-        })
-      this.$http.get('/credit?movieId=' + this.$route.query.movieID + '')
-        .then((res) => {
-          this.movieCredit = JSON.parse(res.body)
-          this.getVal({val: this.movieCredit})
-        })
-      this.$http.get('/image?movieId=' + this.$route.query.movieID + '')
-        .then((res) => {
-          this.movieStill = JSON.parse(res.body)
-          this.getVal({still: this.movieStill})
-        })
-      this.$http.get('/comment?movieId=' + this.$route.query.movieID + '')
-        .then((res) => {
-          this.movieComment = res.body.data.plus
-          this.commentList = res.body.data.mini
-          this.getVal({plus: this.movieComment, mini: this.commentList})
-          this.time = new Date(this.comments.commentDate * 1000)
-          this.time = this.time.toLocaleDateString().replace(/\//g, '-') +
-            ' ' + this.time.toTimeString().substr(0, 8)
-        })
+      setTimeout(() => {
+        this.$http.get('/list?locationId=' + this.$route.query.locationID +
+          '&movieId=' + this.$route.query.movieID + '')
+          .then((res) => {
+            this.movieDetail = res.body.data.basic
+          })
+        this.$http.get('/credit?movieId=' + this.$route.query.movieID + '')
+          .then((res) => {
+            this.movieCredit = JSON.parse(res.body)
+            this.getVal({val: this.movieCredit})
+          })
+        this.$http.get('/image?movieId=' + this.$route.query.movieID + '')
+          .then((res) => {
+            this.movieStill = JSON.parse(res.body)
+            this.getVal({still: this.movieStill})
+          })
+        this.$http.get('/comment?movieId=' + this.$route.query.movieID + '')
+          .then((res) => {
+            this.movieComment = res.body.data.plus
+            this.commentList = res.body.data.mini
+            this.getVal({plus: this.movieComment, mini: this.commentList})
+            this.time = new Date(this.comments.commentDate * 1000)
+            this.time = this.time.toLocaleDateString().replace(/\//g, '-') +
+              ' ' + this.time.toTimeString().substr(0, 8)
+          })
+      }, 1500)
     },
     watch: {
       movieDetail(val) {
@@ -269,6 +273,9 @@
         let newstr = rd.join('')
         this.onshow = newstr
       }
+    },
+    components: {
+      Loading
     }
   }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div class="distress">
+    <Loading v-if="!area"></Loading>
     <div class="header">
       <div class="header-to" @click="prev"></div>
       <div class="header-all">
@@ -46,11 +47,12 @@
 <script>
   import {mapState, mapMutations, mapGetters, mapActions} from 'vuex'
   import IScroll from 'iscroll/build/iscroll-probe'
+  import Loading from '../loading/Loading.vue'
 
   export default {
     data() {
       return {
-        area: [],
+        area: null,
         ...mapState(['list'])
       }
     },
@@ -58,10 +60,12 @@
       ...mapGetters(['cityAreas', 'hotAreas', 'searchList'])
     },
     created() {
-      this.$http.get('/area').then((res) => {
-        this.area = res.body.p
-        this.filterPos(this.area)
-      })
+      setTimeout(() => {
+        this.$http.get('/area').then((res) => {
+          this.area = res.body.p
+          this.filterPos(this.area)
+        })
+      }, 1000)
       this.$nextTick(() => {
         this.searchWrapper = new IScroll(this.$refs.search, {
           click: true
@@ -86,7 +90,9 @@
         this.searchByVal({value: this.$refs.input.value, area: this.area})
       }
     },
-    components: {}
+    components: {
+      Loading
+    }
   }
 </script>
 <style lang="less" scoped>
