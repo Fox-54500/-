@@ -102,11 +102,13 @@
         this.upcomingWrapper = new IScroll(upcoming, {
           click: true,
           scrollX: true,
+          scrollY: false,
           probeType: 3
         })
         this.hotplayWrapper = new IScroll(hotplay, {
           click: true,
           scrollX: true,
+          scrollY: false,
           probeType: 3
         })
       })

@@ -42,7 +42,6 @@
 
 <style lang="less">
   #app {
-    overflow: hidden;
     #goto-top {
       position: fixed;
       height: 50px;

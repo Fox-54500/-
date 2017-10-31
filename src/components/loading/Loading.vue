@@ -18,8 +18,8 @@
     top: 0;
     z-index: 100;
     background: url("../../assets/123.gif") no-repeat center center;
+    background-color: #ffffff;
     background-size: 40%;
-    background-color: #F8F9FF;
     width: 100%;
     height: 100%;
   }

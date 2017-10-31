@@ -1,5 +1,6 @@
 <template>
   <div class="upcoming">
+    <Loading v-if="!upcoming.length"></Loading>
     <div class="header">
       <div class="header-to" @click="prev"></div>
       <div class="header-all">
@@ -52,7 +53,7 @@
 
 <script>
   import search from '../search/search.vue'
-
+  import Loading from '../loading/Loading.vue'
   export default {
     name: '',
     data() {
@@ -117,7 +118,8 @@
       })
     },
     components: {
-      search
+      search,
+      Loading
     }
   }
 </script>
