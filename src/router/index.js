@@ -22,6 +22,13 @@ Vue.use(Router)
 export default new Router({
   // routes: [{path: '/', name: 'Hello', component: Hello}]
   linkActiveClass: 'active',
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {x: 0, y: 0}
+    }
+  },
   routes: [
     {path: '/home', name: 'home', component: home},
     {path: '/buyticket', name: 'buyticket', component: buyticket},

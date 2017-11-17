@@ -111,14 +111,20 @@
           scrollY: false,
           probeType: 3
         })
+        this.upcIndex = this.upcomingWrapper.wrapperWidth / 84
+        this.ongIndex = this.upcomingWrapper.wrapperWidth / 84
       })
     },
     updated() {
       this.upcomingWrapper.on('scroll', () => {
-        this.upcIndex = -parseInt(this.upcomingWrapper.x / 84) + 5
+        if (this.upcomingWrapper.x < 0 && this.upcomingWrapper.x >= -this.upcomingWrapper.scrollerWidth) {
+          this.upcIndex = -parseInt(this.upcomingWrapper.x / 84) + this.upcomingWrapper.wrapperWidth / 84
+        }
       })
       this.hotplayWrapper.on('scroll', () => {
-        this.ongIndex = -parseInt(this.hotplayWrapper.x / 84) + 5
+        if (this.hotplayWrapper.x < 0 && this.hotplayWrapper.x >= -this.hotplayWrapper.scrollerWidth) {
+          this.ongIndex = -parseInt(this.hotplayWrapper.x / 84) + this.hotplayWrapper.wrapperWidth / 84
+        }
       })
       this.upcomingWrapper.refresh()
       this.hotplayWrapper.refresh()

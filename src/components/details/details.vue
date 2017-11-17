@@ -1,6 +1,6 @@
 <template>
   <div class="details">
-    <Loading v-if="!movieDetail.img"></Loading>
+    <Loading v-if="!movieDetail.name"></Loading>
     <div class="curtain">
       <img :src="movieDetail.img">
     </div>

@@ -79,7 +79,7 @@
       let loading = document.getElementsByClassName('loading')[0]
       let loadMore = document.getElementsByClassName('loadMore')[0]
       this.boxWrapper.on('scroll', () => {
-        if (this.boxWrapper.y >= 50) {
+        if (this.boxWrapper.y >= 100) {
           this.refresh = true
           loading.innerText = '正在刷新'
         }
@@ -95,7 +95,7 @@
           this.initData()
           this.idx = 5
           this.relativeY = 0
-          loading.innerText = '下拉刷新'
+          loading.innerHTML = '下拉刷新'
         }
         if (this.loadMore) {
           this.initData()
@@ -225,7 +225,7 @@
                 .ongoing-content {
                   .movie-cond {
                     .movie-buy {
-                      transform: translate3d(20px, 35px, 0);
+                      transform: translate3d(0, 35px, 0);
                     }
                   }
                 }
@@ -236,12 +236,14 @@
             border: none;
           }
           a {
-            display: inline-block;
+            display: block;
             height: 100px;
             .ongoing-rect {
               display: flex;
+              width: 70%;
               .ongoing-image {
                 position: relative;
+                flex: 0 0 78px;
                 overflow: hidden;
                 width: 78px;
                 height: 117.5px;
@@ -264,10 +266,11 @@
               }
               .ongoing-content {
                 display: flex;
+                flex: 1 0 auto;
                 margin-left: 20px;
                 flex-wrap: wrap;
                 height: 121px;
-                width: 70%;
+                width: 100%;
                 .movie-name {
                   font-size: 18px;
                   max-width: 180px;
@@ -328,17 +331,15 @@
                   justify-content: space-between;
                   align-items: center;
                   color: #999;
-                  width: 230px;
+                  width: 100%;
                   height: 50px;
                   line-height: 50px;
                   font-size: 14px;
                   font-weight: 300;
-                  span {
-                    display: inline-block;
-                    width: 100%;
+                  span{
+                    font-size: 12px;
                   }
                   .movie-buy {
-                    display: block;
                     padding: 0 17px;
                     text-align: center;
                     background: #ff8600;
@@ -348,7 +349,6 @@
                     font-size: 16px;
                     line-height: 34px;
                     border-radius: 20px;
-                    transform: translateX(20px);
                   }
                 }
               }
